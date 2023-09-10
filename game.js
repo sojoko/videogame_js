@@ -5,6 +5,9 @@ const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
 const spanLives = document.querySelector('#lives');
+const dialog = document.querySelector('#dialog');
+const btnSi = document.querySelector('#btn-yes');
+const btnNo = document.querySelector('#btn-no');
 
 let canvasSize;
 let elementsSize;
@@ -109,10 +112,16 @@ function movePlayer() {
     })
 
 
-    if (enemyColli){
-       gameFail();
+    if (enemyColli) {
+        game.fillText(emojis['BOMB_COLLISION'],enemyColli['x'],enemyColli['y']);
+        gameFail();
     }
+
+
 }
+
+
+
 
 function levelWin() {
     level++;
@@ -125,23 +134,34 @@ function gameWin() {
 
 function gameFail() {
 
+
+
     lives--;
 
 
-    if(lives <= 0){
+    if (lives <= 0) {
         level = 0;
         lives = 3;
+        dialog.style.display = 'block';
+        btnSi.focus();
+        if (  btnSi.addEventListener('click', () =>{
+            dialog.style.display = 'none';
+            startGame()
+        })){
+
+        }
+        blockGame();
+
     }
 
     playerPosition.x = undefined;
     playerPosition.y = undefined;
-    startGame();
-    console.log(lives)
+
+
 }
 
 function showLives() {
    const heartsArray = Array(lives).fill( emojis['HEART'])
-    console.log(heartsArray)
 
     spanLives.innerHTML = "";
     heartsArray.forEach(heart => spanLives.append(heart))
@@ -201,3 +221,4 @@ function moveDown() {
     }
 
 }
+
